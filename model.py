@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-'''
+
 # define the First CNN architecture
 class CNN_1(nn.Module):
     def __init__(self):
@@ -58,7 +58,7 @@ class CNN_1(nn.Module):
         x = self.fc2(x)
         
         return x
-'''
+
 
 
 # define the Second CNN architecture
