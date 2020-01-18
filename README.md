@@ -4,7 +4,6 @@ This repo is an assignment as part of the African Master's in Machine Intelligen
 ## Problem description
 The problem is to write an algorithm to classify images into two categories: dog vs cat.  This is easy for humans. We will in this project make our computers able to do this kind of classification. 
 
-## Getting Started
 ### Installation
 
 - Clone this repo:
