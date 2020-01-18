@@ -18,7 +18,6 @@ pip install requirements.txt
 - Extract the train file.
 
 ```bash
-   
     mkdir -p train/dog
     mkdir -p train/cat
     mkdir -p test/dog
@@ -35,7 +34,6 @@ pip install requirements.txt
 
 
 ### Run the main file
-
 ```python
 python main.py
 ```
