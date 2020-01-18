@@ -15,7 +15,7 @@ pip install requirements.txt
 # The Dataset
 
 - Download our the data from [Kaggle](https://www.kaggle.com/c/dogs-vs-cats/data).
-- Extract the train.zip file then rename to dataset.
+- Extract the train.zip file then rename it to 'dataset'.
 
 ```bash
     cd dataset
