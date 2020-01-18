@@ -16,7 +16,7 @@ pip install requirements.txt
 # The Dataset
 
 - Download our the data from [Kaggle](https://www.kaggle.com/c/dogs-vs-cats/data).
-- extract the train file.
+- Extract the train file.
 
 ```bash
     cd train
