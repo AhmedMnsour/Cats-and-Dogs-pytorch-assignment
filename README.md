@@ -18,14 +18,13 @@ pip install requirements.txt
 - Extract the train file.
 
 ```bash
-    cd train
    
     mkdir -p train/dog
     mkdir -p train/cat
     mkdir -p test/dog
     mkdir -p test/cat
     
-    # Randomly move 80% into train and test, 
+    #Randomly split into train and test, 
     
     find . -name "cat*" -type f | shuf -n10000 | xargs -I file mv file train/cat/
     find . -maxdepth 1 -type f -name 'cat*'| xargs -I file mv file test/cat/
