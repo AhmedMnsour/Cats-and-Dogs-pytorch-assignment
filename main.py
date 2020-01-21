@@ -7,8 +7,19 @@ import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt 
 from torchvision import transforms
+import torchvision
 import torch.nn.functional as F
 import torch.optim as optim
+from torch.utils.tensorboard import SummaryWriter
+
+
+
+# default `log_dir` is "runs" - we'll be more specific here
+writer = SummaryWriter('runs/cats_vs_dogs_experiment_1')
+
+def matplotlib_imshow(img):
+    npimg = img_grid.numpy()
+    plt.imshow(np.transpose(npimg, (1, 2, 0)))
 
 
 def get_n_params(model):
@@ -29,7 +40,6 @@ transform = transforms.Compose([
                                 transforms.Resize((224, 224)), 
                                 transforms.ToTensor(), 
                                 transforms.Normalize(mean, std)])
-
 
 
 train_path    = 'dataset/train'
@@ -54,6 +64,18 @@ testLoader  = DataLoader(dataset=test_data,
 
 
 
+dataiter = iter(trainLoader)
+images, labels = dataiter.next()
+
+# create grid of images
+img_grid = torchvision.utils.make_grid(images)
+
+# show images
+matplotlib_imshow(img_grid)
+
+# write to tensorboard
+writer.add_image('cats_and_dogs_images', img_grid)
+
 
 
 accuracy_list = []
@@ -61,13 +83,19 @@ accuracy_list = []
 CNN_2_model = CNN_2()
 CNN_1_model = CNN_1()
 
+writer.add_graph(CNN_2_model, images)
+
+
+
 optimizer = optim.SGD(CNN_2_model.parameters(), lr=0.01, momentum=0.5)
 #optimizer = optim.SGD(CNN_1_model.parameters(), lr=0.01, momentum=0.5)
-print('Number of parameters: {}'.format(get_n_params(CNN_1_model)))
+print('Number of parameters: {}'.format(get_n_params(CNN_2_model)))
+
 
 
 
 def train(epoch, model):
+    running_loss = 0.0
     for batch_idx, (image, target) in enumerate(trainLoader):
         optimizer.zero_grad()
         output = model(image)
@@ -75,9 +103,15 @@ def train(epoch, model):
         loss.backward()
         optimizer.step()
 
+        running_loss += loss.item()
+
         print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(image), len(trainLoader.dataset),
                        100. * batch_idx / len(trainLoader), loss.item()))
+
+        
+        writer.add_scalar('training loss',running_loss,epoch * len(trainLoader) + batch_idx)
+    print('Finished Training')
 
 
 def test(model):
@@ -101,10 +135,11 @@ def test(model):
         accuracy))
 
 if __name__ == "__main__":
-    for epoch in range(0, 1):
+    for epoch in range(0, 5):
 
         train(epoch, CNN_2_model)
         test(CNN_2_model)
+        writer.close()
 
         #train(epoch, CNN_1_model)
         #test(CNN_1_model)
